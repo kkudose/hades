@@ -4,6 +4,7 @@
 
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { conditions } from './conditions';
 
 	let totalHeat = 0;
 
@@ -21,112 +22,6 @@
 			}
 		}
 	});
-
-	interface Condition {
-		name: string;
-		description: string;
-		heat: number[];
-		selected: number[];
-	}
-
-	const conditions: Condition[] = [
-		{
-			name: 'Hard Labor',
-			description: 'All foes deal bonus damage, +20% per rank. ',
-			heat: [1, 1, 1, 1, 1],
-			selected: []
-		},
-		{
-			name: 'Lasting Consequences',
-			description: 'Any Health effects restore less of your Life Total than usual, -25% per rank. ',
-			heat: [1, 1, 1, 1],
-			selected: []
-		},
-		{
-			name: 'Convenience Fee',
-			description: 'All Obols prices are higher, +40% per rank. ',
-			heat: [1, 1],
-			selected: []
-		},
-		{
-			name: 'Jury Summons',
-			description: 'Foes in standard Encounters appear in greater nummbers, +20% per rank. ',
-			heat: [1, 1, 1],
-			selected: []
-		},
-		{
-			name: 'Extreme Measures',
-			description:
-				"Each Underworld region's Bosses gain new techniques, 1 region per rank (Tartarus first). ",
-			heat: [1, 2, 3, 4],
-			selected: []
-		},
-		{
-			name: 'Calisthenics Program',
-			description: 'All foes have higher Life Totals, +15% Health per rank. ',
-			heat: [1, 1],
-			selected: []
-		},
-		{
-			name: 'Benefits Package',
-			description:
-				'Most Armored foes have Perks (dangerous traits that vary per Encounter), +1 per rank. ',
-			heat: [2, 3],
-			selected: []
-		},
-		{
-			name: 'Middle Management',
-			description:
-				'Each Mini-boss Encounter contains +1 Armored foe (or some additional problem). ',
-			heat: [2],
-			selected: []
-		},
-		{
-			name: 'Underworld Customs',
-			description: 'The exit to each Underworld region requires you to purge 1 Boon to unlock it. ',
-			heat: [2],
-			selected: []
-		},
-		{
-			name: 'Forced Overtime',
-			description: 'All foes have bonus move speed and attack speed, +20% per rank. ',
-			heat: [3, 3],
-			selected: []
-		},
-		{
-			name: 'Heightened Security',
-			description: 'All Traps and Magma deal +400% bonus damage. ',
-			heat: [1],
-			selected: []
-		},
-		{
-			name: 'Routine Inspections',
-			description:
-				'Your Talents from the Mirror of Night are deactivated, -3 per rank, (from the bottom up). ',
-			heat: [2, 2, 2, 2],
-			selected: []
-		},
-		{
-			name: 'Damage Control',
-			description:
-				'All foes have Shielded Health, making them ignore initial instances of damage, 1 hit per rank. ',
-			heat: [1, 1],
-			selected: []
-		},
-		{
-			name: 'Approval Process',
-			description: 'You have fewer choices when offered Boons, items or upgrades, -1 per rank. ',
-			heat: [2, 3],
-			selected: []
-		},
-		{
-			name: 'Tight Deadline',
-			description:
-				'You get 9 Min. to clear each Underworld region (or else!), reduced by -2 Min. per rank. ',
-			heat: [1, 2, 3],
-			selected: []
-		}
-	];
 
 	const getTotalHeat = () => {
 		return conditions.reduce((total, c) => {
@@ -165,8 +60,12 @@
 	<title>Pact of Punishment</title>
 </svelte:head>
 
+<div class="link" on:click={handleGetLinkClick}>Get shareable link!</div>
+
 <div class="header">
-	<h1>Conditions</h1>
+	<div>
+		<h1>Conditions</h1>
+	</div>
 	<div>
 		<h2>{totalHeat}</h2>
 		<img alt="heat icon" id="heatIcon" src="/Heat.webp" />
@@ -177,7 +76,7 @@
 	<div class="condition">
 		<div class="name">{name}</div>
 		<div class="checkboxes">
-			{#each heat as h, heatIndex}
+			{#each heat as _h, heatIndex}
 				<label class="checkbox">
 					<input
 						type="checkbox"
@@ -189,10 +88,11 @@
 			{/each}
 		</div>
 	</div>
-	<div class="description">{description}</div>
+	<div class="description">{@html description}</div>
 {/each}
 
-<div id="getLink" on:click={handleGetLinkClick}>Get shareable link!</div>
+<a href="/mirror" class="link">Looking for the Mirror of Night?</a>
+
 <SvelteToast />
 
 <style>
@@ -202,6 +102,31 @@
 		display: flex;
 		justify-content: center;
 		font-family: 'Alegreya Sans';
+	}
+
+	.link {
+		color: white;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		margin-top: 8px;
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.link:hover {
+		text-decoration: underline;
+	}
+
+	:global(.icon) {
+		height: 26px;
+		margin-left: 2px;
+		vertical-align: middle;
+	}
+
+	:global(.small-icon) {
+		height: 20px;
+		vertical-align: middle;
 	}
 
 	.header {
@@ -223,6 +148,7 @@
 
 	.condition {
 		display: flex;
+		height: 40px;
 		justify-content: space-between;
 		margin-bottom: 20px;
 		width: 450px;
@@ -264,9 +190,11 @@
 		display: block;
 	}
 
-	#getLink {
+	#getLink,
+	#mirrorLink {
 		cursor: pointer;
-		padding: 20px;
+		padding: 4px;
+		margin: 16px;
 		text-align: center;
 	}
 </style>
