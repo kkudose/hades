@@ -51,7 +51,7 @@
 			})
 			.join('');
 		const base = $page.host;
-		navigator.clipboard.writeText(`${base}/?q=${query}`);
+		navigator.clipboard.writeText(`https://${base}/?q=${query}`);
 		toast.push('Link copied to clipboard!');
 	};
 </script>

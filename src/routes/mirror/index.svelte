@@ -24,7 +24,7 @@
 			})
 			.join('');
 		const base = $page.host;
-		navigator.clipboard.writeText(`${base}/mirror?q=${query}`);
+		navigator.clipboard.writeText(`https://${base}/mirror?q=${query}`);
 		toast.push('Link copied to clipboard!');
 	};
 </script>
