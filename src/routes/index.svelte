@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '@fontsource/alegreya-sans';
 	import { SvelteToast, toast } from '@zerodevx/svelte-toast';
-
 	import { onMount } from 'svelte';
+
 	import { page } from '$app/stores';
 	import { conditions } from './conditions';
 
@@ -188,13 +188,5 @@
 
 	.condition:hover + .description {
 		display: block;
-	}
-
-	#getLink,
-	#mirrorLink {
-		cursor: pointer;
-		padding: 4px;
-		margin: 16px;
-		text-align: center;
 	}
 </style>
